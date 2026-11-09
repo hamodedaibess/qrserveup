@@ -1,0 +1,18 @@
+{
+  "name": "@qrserveup/rbac",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@qrserveup/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@qrserveup/tsconfig": "workspace:*",
+    "tsx": "^4.23.15",
+    "typescript": "^5.0.0"
+  }
+}

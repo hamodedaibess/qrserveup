@@ -200,6 +200,9 @@ importers:
       '@qrserveup/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@qrserveup/rbac':
+        specifier: workspace:*
+        version: link:../../packages/rbac
       '@qrserveup/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -287,6 +290,22 @@ importers:
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
+
+  packages/rbac:
+    dependencies:
+      '@qrserveup/db':
+        specifier: workspace:*
+        version: link:../db
+    devDependencies:
+      '@qrserveup/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      tsx:
+        specifier: ^4.23.15
+        version: 4.23.15
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
 
   packages/tsconfig: {}
 

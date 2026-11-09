@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@qrserveup/auth": "workspace:*",
+    "@qrserveup/rbac": "workspace:*",
     "@qrserveup/types": "workspace:*",
     "next": "15.0.0",
     "react": "^19.0.0",
