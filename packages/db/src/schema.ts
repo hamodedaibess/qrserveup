@@ -1,10 +1,11 @@
-import { pgTable, uuid, varchar, boolean, timestamp, text, smallint, numeric, integer, jsonb, char, pgEnum, date, time, inet } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, boolean, timestamp, text, smallint, numeric, integer, jsonb, char, pgEnum, date, time, inet, bigint } from 'drizzle-orm/pg-core';
 import { uuidv7 } from 'uuidv7';
 
 // ==========================================
 // ENUMS (من ERD §1.5)
 // ==========================================
 export const subscriptionStatusEnum = pgEnum('subscription_status', ['TRIAL', 'ACTIVE', 'GRACE', 'PAST_DUE', 'SUSPENDED', 'CANCELLED', 'ARCHIVED']);
+export const staffActorEnum = pgEnum('staff_actor', ['USER', 'SYSTEM', 'PLATFORM_OWNER', 'GUEST']);
 // (باقي الـ Enums سنضيفها في الدفعة القادمة الخاصة بالطلبات والمدفوعات)
 
 // ==========================================
@@ -220,4 +221,48 @@ export const businessDays = pgTable('business_days', {
   openingFloat: numeric('opening_float', { precision: 18, scale: 4 }),
   closingCount: numeric('closing_count', { precision: 18, scale: 4 }),
   notes: text('notes'),
+});
+
+// ==========================================
+// BATCH 2 (P1-007): Infrastructure — Audit
+// Ref: ERD §9.1 — no FK, append-only
+// ==========================================
+
+export const auditLog = pgTable('audit_log', {
+  id: uuid('id').primaryKey().$defaultFn(() => uuidv7()),
+  tenantId: uuid('tenant_id'),
+  actorType: staffActorEnum('actor_type').notNull(),
+  actorId: uuid('actor_id'),
+  entityType: varchar('entity_type', { length: 63 }).notNull(),
+  entityId: uuid('entity_id'),
+  action: varchar('action', { length: 63 }).notNull(),
+  before: jsonb('before'),
+  after: jsonb('after'),
+  reason: text('reason'),
+  correlationId: varchar('correlation_id', { length: 64 }),
+  ipAddress: inet('ip_address'),
+  userAgent: text('user_agent'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
+// ==========================================
+// BATCH 2 (P1-007): Infrastructure — Outbox
+// Ref: ERD §9.2, ADR-005
+// ==========================================
+
+export const outboxEvents = pgTable('outbox_events', {
+  id: uuid('id').primaryKey().$defaultFn(() => uuidv7()),
+  tenantId: uuid('tenant_id'),
+  aggregateType: varchar('aggregate_type', { length: 63 }).notNull(),
+  aggregateId: uuid('aggregate_id').notNull(),
+  eventType: varchar('event_type', { length: 63 }).notNull(),
+  sequenceNo: bigint('sequence_no', { mode: 'number' }),
+  branchId: uuid('branch_id'),
+  payload: jsonb('payload').notNull(),
+  status: varchar('status', { length: 16 }).notNull().default('pending'),
+  attempts: smallint('attempts').notNull().default(0),
+  lastError: text('last_error'),
+  scheduledAt: timestamp('scheduled_at', { withTimezone: true }).notNull().defaultNow(),
+  processedAt: timestamp('processed_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });

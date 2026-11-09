@@ -11,7 +11,14 @@
   - [x] POST /api/auth/pin → 200 OK / 401 / 429
 - [x] P1-005 RBAC + permissions package (2026-11-09)
 - [x] P1-006 Multi-tenant context + RLS + DAL (2026-11-09)
-- [~] P1-007 Audit Log + Outbox skeleton ← CURRENT
-- [ ] P1-008 CI + Sentry + OTel
+- [x] P1-007 Audit Log + Outbox skeleton (2026-11-09)
+  - [x] staff_actor enum + audit_log (14 cols) + outbox_events (14 cols)
+  - [x] Migration 0002 (applied manually — see HANDOFF)
+  - [x] RLS + system_bypass with NULLIF fix (ADR-010)
+  - [x] REVOKE UPDATE/DELETE on audit_log (ADR-011)
+  - [x] 4 indexes (audit×2, outbox×2)
+  - [x] Helpers: recordAudit() + enqueueOutbox()
+  - [x] Integration tests 6/6 PASS
+- [~] P1-008 CI + Sentry + OTel ← CURRENT
 - [ ] P1-009 Testing infra (Vitest + Playwright)
 - [ ] P1-010 Vertical slice: login → dashboard + E2E
