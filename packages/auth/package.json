@@ -10,6 +10,7 @@
   "dependencies": {
     "@qrserveup/db": "workspace:*",
     "bcryptjs": "^3.0.3",
+    "drizzle-orm": "^0.45.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
