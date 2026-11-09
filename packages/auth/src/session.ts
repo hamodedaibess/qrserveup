@@ -20,3 +20,25 @@ export async function createSession(data: {
 
   return session;
 }
+
+// إضافة: جلسة موظف عبر PIN
+export async function createStaffSession(data: {
+  tenantId: string;
+  staffId: string;
+  ipAddress: string | null;
+  userAgent: string | null;
+}) {
+  const expiresAt = new Date();
+  expiresAt.setHours(expiresAt.getHours() + 12); // 12 ساعة للـ ops
+
+  const [session] = await db.insert(staffSessions).values({
+    tenantId: data.tenantId,
+    staffId: data.staffId,
+    kind: 'pin',
+    ipAddress: data.ipAddress,
+    userAgent: data.userAgent,
+    expiresAt,
+  }).returning();
+
+  return session;
+}

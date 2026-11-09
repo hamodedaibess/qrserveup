@@ -2,6 +2,11 @@
 
 ## [Unreleased] — Phase 1 Foundation
 ### Added
-- **P1-001 (2026-11-09):** Monorepo setup (pnpm + Turborepo + TS Strict).
-- **P1-002 (2026-11-09):** Neon + Drizzle ORM. 16 tables + Seed (Plans, Permissions, Platform Owner).
-- **P1-003 (2026-11-09):** Auth email/password (bcryptjs cost=12, ADR-008). POST /api/auth/login → 200 + HttpOnly cookie session_id. Session persists in staff_sessions table.
+- **P1-001:** Monorepo (pnpm + Turborepo + TS Strict).
+- **P1-002:** Neon + Drizzle ORM. 16 tables + Seed.
+- **P1-003:** Auth email/password (bcryptjs, ADR-008) + sessions.
+- **P1-004:** PIN auth for staff. In-memory lockout: 5 fails → 15 min (ADR-009).
+
+### Decisions
+- ADR-008: bcryptjs مؤقتًا (Phase 10: Argon2id).
+- ADR-009: In-memory lockout (Phase 2: Redis).
