@@ -1,62 +1,50 @@
 import { db } from './index';
 import { plans, permissions, authUsers, tenants, staff } from './schema';
-import { hashPassword, hashPin } from '@qrserveup/auth';
+import { eq } from 'drizzle-orm';
+import bcrypt from 'bcryptjs';
 
 async function seed() {
-  console.log('🌱 Starting seed...');
+  console.log('Starting seed...');
 
-  // Plans
   await db.insert(plans).values([
     { code: 'trial', name: 'Free Trial', priceMonthly: '0', priceYearly: '0', currencyCode: 'EGP', trialDays: 14 },
     { code: 'standard', name: 'Standard', priceMonthly: '599', priceYearly: '5990', currencyCode: 'EGP', trialDays: 0 },
   ]).onConflictDoNothing();
 
-  // Permissions
   await db.insert(permissions).values([
     { code: 'orders.view', category: 'orders', description: 'View orders' },
     { code: 'orders.confirm', category: 'orders', description: 'Confirm pending orders' },
     { code: 'finance.view', category: 'finance', description: 'View financial reports' },
   ]).onConflictDoNothing();
 
-  // Platform Owner (email/password)
-  const ownerPw = await hashPassword('password123');
+  const ownerPw = await bcrypt.hash('password123', 12);
   await db.insert(authUsers).values({
-    email: 'admin@qrserveup.com',
-    passwordHash: ownerPw,
-    role: 'platform_owner',
-    tenantId: null,
-    emailVerified: true,
+    email: 'admin@qrserveup.com', passwordHash: ownerPw,
+    role: 'platform_owner', tenantId: null, emailVerified: true,
   }).onConflictDoNothing();
 
-  // Demo Tenant
-  const [tenant] = await db.insert(tenants).values({
-    slug: 'demo-restaurant',
-    name: 'Demo Restaurant',
-    email: 'demo@example.com',
-    countryCode: 'EG',
-    defaultCurrency: 'EGP',
-    defaultTimezone: 'Africa/Cairo',
-    status: 'active',
-  }).onConflictDoNothing().returning();
+  let [tenant] = await db.select().from(tenants).where(eq(tenants.slug, 'demo-restaurant')).limit(1);
+  if (!tenant) {
+    [tenant] = await db.insert(tenants).values({
+      slug: 'demo-restaurant', name: 'Demo Restaurant',
+      email: 'demo@example.com', countryCode: 'EG',
+      defaultCurrency: 'EGP', defaultTimezone: 'Africa/Cairo', status: 'active',
+    }).returning();
+    console.log('Created tenant');
+  } else { console.log('Tenant exists'); }
 
-  if (tenant) {
-    // Demo Staff with PIN 1234
-    const pinHash = await hashPin('1234');
-    await db.insert(staff).values({
-      tenantId: tenant.id,
-      name: 'Demo Waiter',
-      pinHash,
-      mustChangePin: false,
-      isActive: true,
-    }).onConflictDoNothing();
-    console.log('✅ Demo tenant + staff created');
-  }
+  let [emp] = await db.select().from(staff).where(eq(staff.tenantId, tenant!.id)).limit(1);
+  if (!emp) {
+    const pinHash = await bcrypt.hash('1234', 10);
+    [emp] = await db.insert(staff).values({
+      tenantId: tenant!.id, name: 'Demo Waiter',
+      pinHash, mustChangePin: false, isActive: true,
+    }).returning();
+    console.log('Created staff');
+  } else { console.log('Staff exists'); }
 
-  console.log('✅ Seed completed successfully!');
+  console.log('Seed completed!');
   process.exit(0);
 }
 
-seed().catch((err) => {
-  console.error('❌ Seed failed:', err);
-  process.exit(1);
-});
+seed().catch((err) => { console.error('Seed failed:', err); process.exit(1); });

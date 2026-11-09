@@ -10,7 +10,7 @@
   - [x] 5 failed → 15 min lockout (in-memory, ADR-009)
   - [x] POST /api/auth/pin → 200 OK / 401 / 429
 - [x] P1-005 RBAC + permissions package (2026-11-09)
-- [~] P1-006 Multi-tenant context + RLS + DAL base ← CURRENT
+- [~] P1-006 Multi-tenant context + RLS + DAL (2026-11-09, in progress)
 - [ ] P1-007 Audit Log + Outbox skeleton
 - [ ] P1-008 CI + Sentry + OTel
 - [ ] P1-009 Testing infra (Vitest + Playwright)

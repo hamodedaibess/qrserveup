@@ -16,6 +16,8 @@
     "uuidv7": "^1.2.1"
   },
   "devDependencies": {
+    "@qrserveup/tsconfig": "workspace:*",
+    "@types/pg": "^8.23.1",
     "drizzle-kit": "^0.31.11",
     "tsx": "^4.23.15"
   },
