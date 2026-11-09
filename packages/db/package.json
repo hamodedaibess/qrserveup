@@ -5,7 +5,8 @@
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "db:seed": "tsx src/seed.ts"
   },
   "dependencies": {
     "dotenv": "^18.0.9",
@@ -14,6 +15,7 @@
     "uuidv7": "^1.2.1"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.11"
+    "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15"
   }
 }

@@ -2,8 +2,8 @@
 
 ## START HERE — READ THIS FIRST
 
-- **Project Status:** Phase 1 — IN_PROGRESS (P1-001 DONE, P1-002 CURRENT).
-- **Last Completed Task:** P1-001 (Monorepo setup).
-- **Next Task:** P1-002 — Neon + Drizzle + Migrations pipeline.
-- **Critical Blocker:** NONE. (Needs ERD Part 1 for schema).
-- **Environment:** GitHub Codespaces. 3 apps built successfully.
+- **Project Status:** Phase 1 — IN_PROGRESS (P1-002 DONE, P1-003 CURRENT).
+- **Last Completed Task:** P1-002 (Neon + Drizzle + 16 tables + Seed).
+- **Next Task:** P1-003 — Auth (email+password) + sessions.
+- **Critical Blocker:** NONE.
+- **Environment:** GitHub Codespaces. Neon DB connected.
