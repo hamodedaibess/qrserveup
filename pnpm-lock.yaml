@@ -197,6 +197,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@qrserveup/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@qrserveup/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -238,8 +241,33 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/auth:
+    dependencies:
+      '@qrserveup/db':
+        specifier: workspace:*
+        version: link:../db
+      bcryptjs:
+        specifier: ^3.0.3
+        version: 3.0.3
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+    devDependencies:
+      '@qrserveup/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/bcryptjs':
+        specifier: ^3.0.0
+        version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/db:
     dependencies:
+      bcryptjs:
+        specifier: ^3.0.3
+        version: 3.0.3
       dotenv:
         specifier: ^18.0.9
         version: 18.0.9
@@ -935,6 +963,10 @@ packages:
     cpu: [arm64]
     os: [win32]
 
+  '@types/bcryptjs@3.0.0':
+    resolution: {integrity: sha512-WRZOuCuaz8UcZZE4R5HXTco2goQSI2XxjGY3hbM/xDvwmqFWd4ivooImsMx65OKM6CtNKbnZ5YL+YwAwK7c1dg==}
+    deprecated: This is a stub types definition. bcryptjs provides its own type definitions, so you do not need this installed.
+
   '@types/body-parser@1.19.6':
     resolution: {integrity: sha512-HLFeCYgz89uk22N5Qg3dvGvsv46B8GLvKKo1zKG4NybA8U2DiEO3w9lqGg29t/tfLRJpJ6iQxnVw4OnB7MoM9g==}
 
@@ -985,6 +1017,10 @@ packages:
 
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+
+  bcryptjs@3.0.3:
+    resolution: {integrity: sha512-GlF5wPWnSa/X5LKM1o0wz0suXIINz1iHRLvTS+sLyi7XPbe5ycmYI3DlZqVGZZtDgl4DmasFg7gOB3JYbphV5g==}
+    hasBin: true
 
   body-parser@1.20.9:
     resolution: {integrity: sha512-FISIQxV5u91Y9gvuFq3q/tA/qTqLJn3AhRcEvyozyhJTh5OBFFtv827AdHU7Rbyct4r+Ba1/99oFa1Y3yuFsdw==}
@@ -1626,6 +1662,9 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
 snapshots:
 
   '@drizzle-team/brocli@0.10.2': {}
@@ -1994,6 +2033,10 @@ snapshots:
   '@turbo/windows-arm64@2.11.10':
     optional: true
 
+  '@types/bcryptjs@3.0.0':
+    dependencies:
+      bcryptjs: 3.0.3
+
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
@@ -2057,6 +2100,8 @@ snapshots:
       negotiator: 0.6.3
 
   array-flatten@1.1.1: {}
+
+  bcryptjs@3.0.3: {}
 
   body-parser@1.20.9:
     dependencies:
@@ -2719,3 +2764,5 @@ snapshots:
   ws@8.21.3: {}
 
   xtend@4.0.2: {}
+
+  zod@3.25.76: {}

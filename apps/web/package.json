@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@qrserveup/auth": "workspace:*",
     "@qrserveup/types": "workspace:*",
     "next": "15.0.0",
     "react": "^19.0.0",

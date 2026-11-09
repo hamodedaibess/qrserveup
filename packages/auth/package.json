@@ -1,0 +1,20 @@
+{
+  "name": "@qrserveup/auth",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@qrserveup/db": "workspace:*",
+    "bcryptjs": "^3.0.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@qrserveup/tsconfig": "workspace:*",
+    "@types/bcryptjs": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}
